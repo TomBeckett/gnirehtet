@@ -1,32 +1,47 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+}
 
 android {
-    compileSdkVersion rootProject.ext.compileSdkVersion
-    buildToolsVersion rootProject.ext.buildToolsVersion
+    namespace 'com.genymobile.gnirehtet'
+    compileSdk rootProject.ext.compileSdkVersion
 
     defaultConfig {
-        archivesBaseName = "gnirehtet" // change apk name
         applicationId "com.genymobile.gnirehtet"
-        minSdkVersion 21
-        targetSdkVersion 29
-        versionCode 9
-        versionName "2.5.1"
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        minSdk 21
+        // Deliberately left at the v2.5.1 value. Raising it changes the VPN's
+        // default meteredness and foreground-service rules, which would make
+        // the underlying-network experiment this fork exists for harder to read.
+        targetSdk 29
+        versionCode 10
+        versionName "2.5.1-callback.1"
     }
+
+    buildFeatures {
+        // Off by default since AGP 8; the source still reads BuildConfig.DEBUG.
+        buildConfig true
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 }
 
+base {
+    archivesName = "gnirehtet" // change apk name
+}
+
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
-        exclude group: 'com.android.support', module: 'support-annotations'
-    })
-    testImplementation 'junit:junit:4.12'
+    testImplementation 'junit:junit:4.13.2'
 }
 
 apply from: "$project.rootDir/config/android-checkstyle.gradle"

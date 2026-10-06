@@ -1,3 +1,14 @@
+> **Tapline fork.** This fork exists for one change: the Android client waits
+> for its VPN network to be registered before declaring it as its own
+> underlying network, instead of scanning once synchronously after
+> `establish()`. On current Android releases the upstream scan runs before the
+> network exists, nothing is declared, and apps that still use the legacy
+> connectivity API (Maps, YouTube, Play) report themselves offline over a
+> working tunnel. The START intent accepts `--es underlying callback|scan|none`
+> so the three behaviours can be compared on one device; the default is
+> `callback`. The Gradle build is brought up to Gradle 9 / AGP 9 so it runs on a
+> current JDK; the relay is unchanged. Upstream: <https://github.com/Genymobile/gnirehtet>.
+
 # Gnirehtet (v2.5)
 
 This project provides **reverse tethering** over `adb` for Android: it
