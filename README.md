@@ -1,4 +1,4 @@
-> **Tapline fork.** This fork exists for one change: the Android client waits
+> **About this fork.** It exists for one change: the Android client waits
 > for its VPN network to be registered before declaring it as its own
 > underlying network, instead of scanning once synchronously after
 > `establish()`. On current Android releases the upstream scan runs before the
