@@ -96,6 +96,15 @@ public class GnirehtetService extends VpnService {
                 startVpn(config);
             }
         } else if (ACTION_CLOSE_VPN.equals(action)) {
+            if (!isRunning() && Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                // stop() reached us through startForegroundService(), which
+                // obliges this service to call startForeground() within a few
+                // seconds or be killed with a ForegroundServiceDidNotStartInTime
+                // crash. With nothing running, close() would never post the
+                // notification that does that, and the crash dialog then sits
+                // on a headless device until someone taps it.
+                notifier.acknowledgeForegroundStart();
+            }
             close();
         }
         return START_NOT_STICKY;
