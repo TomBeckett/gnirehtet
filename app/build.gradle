@@ -33,6 +33,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    lint {
+        // A Play Store publishing rule, not a correctness one; this client is
+        // sideloaded over adb and keeps targetSdk 29 on purpose (see above).
+        disable 'ExpiredTargetSdkVersion'
+    }
 }
 
 base {
